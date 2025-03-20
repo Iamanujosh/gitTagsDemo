@@ -29,6 +29,7 @@
 
                     // Set the latest version as the headline
                     headline.textContent = `Current Version: ${tags[0].name}`;
+                    selectedVersion.textContent = `Selcted Version: ${versionDropdown.value}`;
                 } else {
                     headline.textContent = "No versions found";
                 }
@@ -37,12 +38,17 @@
             }
         }
 
+        function updateVersion(){
+            const dropdown = document.getElementById("versionDropdown");
+            document.getElementById("selectedVersion").textContent = `Selcted Version: ${dropdown.value}`;
+        }
         window.onload = fetchVersions;
     </script>
 </head>
 <body>
     <h1 id="headline">Loading versions...</h1>
+    <h2 id="selectedVersion"></h2>
     <label for="versionDropdown">Select a Version:</label>
-    <select id="versionDropdown"></select>
+    <select id="versionDropdown" onclick="updateVersion()"></select>
 </body>
 </html>
