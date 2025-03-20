@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Version Selector</title>
+    <script>
+        async function fetchVersions() {
+            const repoOwner = "your-username";  // Change this
+            const repoName = "your-repository"; // Change this
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/tags`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const tags = await response.json();
+                
+                const dropdown = document.getElementById("versionDropdown");
+                const headline = document.getElementById("headline");
+
+                dropdown.innerHTML = ""; // Clear old options
+
+                if (tags.length > 0) {
+                    tags.forEach(tag => {
+                        let option = document.createElement("option");
+                        option.value = tag.name;
+                        option.textContent = tag.name;
+                        dropdown.appendChild(option);
+                    });
+
+                    // Set the latest version as the headline
+                    headline.textContent = `Current Version: ${tags[0].name}`;
+                } else {
+                    headline.textContent = "No versions found";
+                }
+            } catch (error) {
+                console.error("Error fetching versions:", error);
+            }
+        }
+
+        window.onload = fetchVersions;
+    </script>
+</head>
+<body>
+    <h1 id="headline">Loading versions...</h1>
+    <label for="versionDropdown">Select a Version:</label>
+    <select id="versionDropdown"></select>
+</body>
+</html>
